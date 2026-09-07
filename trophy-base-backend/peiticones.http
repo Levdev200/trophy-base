@@ -25,7 +25,7 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-  "email": "test@test.com",
+  "email": "test2@test.com",
   "password": "123456"
 }
 
@@ -34,7 +34,7 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-  "email": "test@test.com",
+  "email": "test2@test.com",
   "password": "123456"
 }
 
@@ -51,3 +51,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsI
   "estado": false,
   "imagen": "https://ejemplo.com/dragon.png"
 }
+### borrar, requiere token
+DELETE http://localhost:3000/trofeos/4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoidGVzdDJAdGVzdC5jb20iLCJpYXQiOjE3ODg4MjEyMDIsImV4cCI6MTc4ODg1MDAwMn0.J2-MHf62KIHJLvhpozgKA156imnWCS69uAdgX7_sa1I
