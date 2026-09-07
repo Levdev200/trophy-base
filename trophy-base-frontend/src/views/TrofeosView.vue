@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 
 const trofeos = ref([])
 const cargando = ref(true)
+const trofeoEditando = ref(null)
 
 const nuevoTrofeo = ref({
   nombre: '',
@@ -16,11 +17,6 @@ const nuevoTrofeo = ref({
 async function cargarTrofeos() {
   try {
     const respuesta = await fetch('http://localhost:3000/trofeos')
-
-    if (!respuesta.ok) {
-      throw new Error('No se pudieron cargar los trofeos')
-    }
-
     trofeos.value = await respuesta.json()
   } catch (error) {
     console.error('Error al cargar los trofeos:', error)
@@ -66,9 +62,12 @@ async function eliminarTrofeo(id) {
   }
 
   try {
-    const respuesta = await fetch(`http://localhost:3000/trofeos/${id}`, {
-      method: 'DELETE',
-    })
+    const respuesta = await fetch(
+      `http://localhost:3000/trofeos/${id}`,
+      {
+        method: 'DELETE',
+      },
+    )
 
     if (!respuesta.ok) {
       throw new Error('No se pudo eliminar el trofeo')
@@ -77,6 +76,46 @@ async function eliminarTrofeo(id) {
     await cargarTrofeos()
   } catch (error) {
     console.error('Error al eliminar el trofeo:', error)
+  }
+}
+
+function editarTrofeo(trofeo) {
+  trofeoEditando.value = { ...trofeo }
+}
+
+function cancelarEdicion() {
+  trofeoEditando.value = null
+}
+
+async function guardarEdicion() {
+  try {
+    const respuesta = await fetch(
+      `http://localhost:3000/trofeos/${trofeoEditando.value.id}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nombre: trofeoEditando.value.nombre,
+          juego: trofeoEditando.value.juego,
+          dificultad: trofeoEditando.value.dificultad,
+          requisito: trofeoEditando.value.requisito,
+          estado: trofeoEditando.value.estado,
+          imagen: trofeoEditando.value.imagen,
+        }),
+      },
+    )
+
+    if (!respuesta.ok) {
+      throw new Error('No se pudo editar el trofeo')
+    }
+
+    trofeoEditando.value = null
+
+    await cargarTrofeos()
+  } catch (error) {
+    console.error('Error al editar el trofeo:', error)
   }
 }
 
@@ -89,14 +128,14 @@ onMounted(() => {
   <main>
     <h1>Trophy Base</h1>
 
-    <section class="formulario">
+    <!-- CREAR TROFEO -->
+    <section>
       <h2>Agregar trofeo</h2>
 
       <form @submit.prevent="crearTrofeo">
         <div>
-          <label for="nombre">Nombre:</label>
+          <label>Nombre:</label>
           <input
-            id="nombre"
             v-model="nuevoTrofeo.nombre"
             type="text"
             required
@@ -104,9 +143,8 @@ onMounted(() => {
         </div>
 
         <div>
-          <label for="juego">Juego:</label>
+          <label>Juego:</label>
           <input
-            id="juego"
             v-model="nuevoTrofeo.juego"
             type="text"
             required
@@ -114,9 +152,8 @@ onMounted(() => {
         </div>
 
         <div>
-          <label for="dificultad">Dificultad:</label>
+          <label>Dificultad:</label>
           <input
-            id="dificultad"
             v-model="nuevoTrofeo.dificultad"
             type="text"
             required
@@ -124,9 +161,8 @@ onMounted(() => {
         </div>
 
         <div>
-          <label for="requisito">Requisito:</label>
+          <label>Requisito:</label>
           <input
-            id="requisito"
             v-model="nuevoTrofeo.requisito"
             type="text"
             required
@@ -134,16 +170,15 @@ onMounted(() => {
         </div>
 
         <div>
-          <label for="imagen">URL de imagen:</label>
+          <label>URL de imagen:</label>
           <input
-            id="imagen"
             v-model="nuevoTrofeo.imagen"
             type="text"
             required
           />
         </div>
 
-        <div class="checkbox">
+        <div>
           <label>
             <input
               v-model="nuevoTrofeo.estado"
@@ -161,6 +196,82 @@ onMounted(() => {
 
     <hr />
 
+    <!-- EDITAR TROFEO -->
+    <section v-if="trofeoEditando">
+      <h2>Editar trofeo</h2>
+
+      <form @submit.prevent="guardarEdicion">
+        <div>
+          <label>Nombre:</label>
+          <input
+            v-model="trofeoEditando.nombre"
+            type="text"
+            required
+          />
+        </div>
+
+        <div>
+          <label>Juego:</label>
+          <input
+            v-model="trofeoEditando.juego"
+            type="text"
+            required
+          />
+        </div>
+
+        <div>
+          <label>Dificultad:</label>
+          <input
+            v-model="trofeoEditando.dificultad"
+            type="text"
+            required
+          />
+        </div>
+
+        <div>
+          <label>Requisito:</label>
+          <input
+            v-model="trofeoEditando.requisito"
+            type="text"
+            required
+          />
+        </div>
+
+        <div>
+          <label>URL de imagen:</label>
+          <input
+            v-model="trofeoEditando.imagen"
+            type="text"
+            required
+          />
+        </div>
+
+        <div>
+          <label>
+            <input
+              v-model="trofeoEditando.estado"
+              type="checkbox"
+            />
+            Conseguido
+          </label>
+        </div>
+
+        <button type="submit">
+          Guardar cambios
+        </button>
+
+        <button
+          type="button"
+          @click="cancelarEdicion"
+        >
+          Cancelar
+        </button>
+      </form>
+    </section>
+
+    <hr v-if="trofeoEditando" />
+
+    <!-- LISTA DE TROFEOS -->
     <section>
       <h2>Trofeos</h2>
 
@@ -172,7 +283,7 @@ onMounted(() => {
         No hay trofeos registrados.
       </p>
 
-      <div v-else class="lista-trofeos">
+      <div v-else>
         <div
           v-for="trofeo in trofeos"
           :key="trofeo.id"
@@ -205,12 +316,15 @@ onMounted(() => {
             {{ trofeo.estado ? 'Conseguido' : 'Pendiente' }}
           </p>
 
-          <button
-            class="eliminar"
-            @click="eliminarTrofeo(trofeo.id)"
-          >
+          <button @click="editarTrofeo(trofeo)">
+            Editar
+          </button>
+
+          <button @click="eliminarTrofeo(trofeo.id)">
             Eliminar
           </button>
+
+          <hr />
         </div>
       </div>
     </section>
@@ -221,16 +335,7 @@ onMounted(() => {
 main {
   max-width: 900px;
   margin: 40px auto;
-  padding: 20px;
   font-family: Arial, sans-serif;
-}
-
-h1 {
-  text-align: center;
-}
-
-.formulario {
-  margin-bottom: 30px;
 }
 
 form {
@@ -243,7 +348,7 @@ form div {
 
 label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
 }
 
 input[type='text'] {
@@ -252,36 +357,18 @@ input[type='text'] {
   box-sizing: border-box;
 }
 
-.checkbox label {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
 button {
   padding: 8px 16px;
+  margin-right: 8px;
   cursor: pointer;
 }
 
-.lista-trofeos {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+img {
+  width: 150px;
+  max-width: 100%;
 }
 
 .trofeo {
-  border: 1px solid #ccc;
-  padding: 20px;
-  border-radius: 8px;
-}
-
-.trofeo img {
-  width: 150px;
-  max-height: 150px;
-  object-fit: cover;
-}
-
-.eliminar {
-  margin-top: 10px;
+  margin-bottom: 20px;
 }
 </style>
