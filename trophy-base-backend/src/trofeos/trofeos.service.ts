@@ -1,26 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTrofeoDto } from './dto/create-trofeo.dto';
 import { UpdateTrofeoDto } from './dto/update-trofeo.dto';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class TrofeosService {
+  constructor(private readonly prisma: PrismaService) {}
+
   create(createTrofeoDto: CreateTrofeoDto) {
-    return 'This action adds a new trofeo';
+    return this.prisma.trofeo.create({ data: createTrofeoDto });
   }
 
   findAll() {
-    return `This action returns all trofeos`;
+    return this.prisma.trofeo.findMany();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} trofeo`;
+    return this.prisma.trofeo.findUnique({ where: { id } });
   }
 
   update(id: number, updateTrofeoDto: UpdateTrofeoDto) {
-    return `This action updates a #${id} trofeo`;
+    return this.prisma.trofeo.update({
+      where: { id },
+      data: updateTrofeoDto,
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} trofeo`;
+    return this.prisma.trofeo.delete({ where: { id } });
   }
 }

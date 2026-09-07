@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "Logro" (
+CREATE TABLE "Trofeo" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "nombre" TEXT NOT NULL,
     "juego" TEXT NOT NULL,

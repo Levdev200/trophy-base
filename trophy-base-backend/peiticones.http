@@ -1,0 +1,21 @@
+###
+POST http://localhost:3000/trofeos
+Content-Type: application/json
+
+{
+  "nombre": "El Fin",
+  "juego": "Minecraft",
+  "dificultad": "Ultra Rara",
+  "requisito": "Derrotar al Dragón del End",
+  "estado": false,
+  "imagen": "https://ejemplo.com/dragon.png"
+}
+
+### Obtener todos los trofeos (GET)
+GET http://localhost:3000/trofeos
+
+### Obtener un trofeo por ID (GET)
+GET http://localhost:3000/trofeos/1
+
+### Eliminar un trofeo (DELETE)
+DELETE http://localhost:3000/trofeos/1

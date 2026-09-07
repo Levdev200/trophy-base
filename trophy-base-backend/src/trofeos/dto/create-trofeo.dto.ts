@@ -4,6 +4,6 @@ export class CreateTrofeoDto {
     juego: string;
     dificultad: string;
     requisito: string;
-    estado: string;
+    estado: boolean;
     imagen: string;
 }
