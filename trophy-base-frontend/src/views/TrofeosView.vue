@@ -1,9 +1,16 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
 const trofeos = ref([])
 const cargando = ref(true)
 const trofeoEditando = ref(null)
+
+// Búsqueda
+const busqueda = ref('')
+
+// Paginación
+const paginaActual = ref(1)
+const porPagina = 4
 
 const nuevoTrofeo = ref({
   nombre: '',
@@ -13,6 +20,44 @@ const nuevoTrofeo = ref({
   estado: false,
   imagen: '',
 })
+
+// Filtra los trofeos por nombre
+const trofeosFiltrados = computed(() => {
+  return trofeos.value.filter((trofeo) =>
+    trofeo.nombre
+      .toLowerCase()
+      .includes(busqueda.value.toLowerCase()),
+  )
+})
+
+// Calcula cuántas páginas hay
+const totalPaginas = computed(() => {
+  return Math.ceil(trofeosFiltrados.value.length / porPagina)
+})
+
+// Devuelve solamente los trofeos de la página actual
+const trofeosPaginados = computed(() => {
+  const inicio = (paginaActual.value - 1) * porPagina
+  const fin = inicio + porPagina
+
+  return trofeosFiltrados.value.slice(inicio, fin)
+})
+
+function reiniciarPagina() {
+  paginaActual.value = 1
+}
+
+function paginaAnterior() {
+  if (paginaActual.value > 1) {
+    paginaActual.value--
+  }
+}
+
+function paginaSiguiente() {
+  if (paginaActual.value < totalPaginas.value) {
+    paginaActual.value++
+  }
+}
 
 async function cargarTrofeos() {
   try {
@@ -48,6 +93,8 @@ async function crearTrofeo() {
       imagen: '',
     }
 
+    paginaActual.value = 1
+
     await cargarTrofeos()
   } catch (error) {
     console.error('Error al crear el trofeo:', error)
@@ -72,6 +119,8 @@ async function eliminarTrofeo(id) {
     if (!respuesta.ok) {
       throw new Error('No se pudo eliminar el trofeo')
     }
+
+    paginaActual.value = 1
 
     await cargarTrofeos()
   } catch (error) {
@@ -275,6 +324,18 @@ onMounted(() => {
     <section>
       <h2>Trofeos</h2>
 
+      <!-- BUSCADOR -->
+      <div class="buscador">
+        <label>Buscar por nombre:</label>
+
+        <input
+          v-model="busqueda"
+          @input="reiniciarPagina"
+          type="text"
+          placeholder="Buscar trofeo..."
+        />
+      </div>
+
       <p v-if="cargando">
         Cargando trofeos...
       </p>
@@ -283,9 +344,13 @@ onMounted(() => {
         No hay trofeos registrados.
       </p>
 
+      <p v-else-if="trofeosFiltrados.length === 0">
+        No se encontraron trofeos con ese nombre.
+      </p>
+
       <div v-else>
         <div
-          v-for="trofeo in trofeos"
+          v-for="trofeo in trofeosPaginados"
           :key="trofeo.id"
           class="trofeo"
         >
@@ -326,6 +391,30 @@ onMounted(() => {
 
           <hr />
         </div>
+
+        <!-- PAGINACIÓN -->
+        <div
+          v-if="totalPaginas > 1"
+          class="paginacion"
+        >
+          <button
+            @click="paginaAnterior"
+            :disabled="paginaActual === 1"
+          >
+            Anterior
+          </button>
+
+          <span>
+            Página {{ paginaActual }} de {{ totalPaginas }}
+          </span>
+
+          <button
+            @click="paginaSiguiente"
+            :disabled="paginaActual === totalPaginas"
+          >
+            Siguiente
+          </button>
+        </div>
       </div>
     </section>
   </main>
@@ -363,6 +452,10 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
 img {
   width: 150px;
   max-width: 100%;
@@ -370,5 +463,19 @@ img {
 
 .trofeo {
   margin-bottom: 20px;
+}
+
+.buscador {
+  max-width: 500px;
+  margin-bottom: 25px;
+}
+
+.paginacion {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.paginacion span {
+  margin-right: 8px;
 }
 </style>
