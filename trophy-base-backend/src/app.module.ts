@@ -4,16 +4,19 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { TrofeosModule } from './trofeos/trofeos.module';
-
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-  ConfigModule.forRoot({
-    isGlobal: true,
-  }),
-  PrismaModule,
-  TrofeosModule,
-],
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    PrismaModule,
+    TrofeosModule,
+    AuthModule,
+    UsersModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

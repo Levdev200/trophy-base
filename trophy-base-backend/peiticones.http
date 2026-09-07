@@ -1,4 +1,4 @@
-###
+### crear un trofeo
 POST http://localhost:3000/trofeos
 Content-Type: application/json
 
@@ -11,11 +11,20 @@ Content-Type: application/json
   "imagen": "https://ejemplo.com/dragon.png"
 }
 
-### Obtener todos los trofeos (GET)
+### Obtener todos los trofeos 
 GET http://localhost:3000/trofeos
 
-### Obtener un trofeo por ID (GET)
+### Obtener un trofeo por ID
 GET http://localhost:3000/trofeos/1
 
-### Eliminar un trofeo (DELETE)
+### Eliminar un trofeo 
 DELETE http://localhost:3000/trofeos/1
+
+### crear user
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "123456"
+}
