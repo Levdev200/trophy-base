@@ -1,4 +1,4 @@
-### crear un trofeo
+### crear un trofeo -- Ahora con el guard, retorna Unauthorized
 POST http://localhost:3000/trofeos
 Content-Type: application/json
 
@@ -17,14 +17,37 @@ GET http://localhost:3000/trofeos
 ### Obtener un trofeo por ID
 GET http://localhost:3000/trofeos/1
 
-### Eliminar un trofeo 
+### Eliminar un trofeo -- ahora tambie retorna Unauthorized
 DELETE http://localhost:3000/trofeos/1
 
-### crear user
+### crear user 
 POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
   "email": "test@test.com",
   "password": "123456"
+}
+
+### Iniciar sesion
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "123456"
+}
+
+### Post pero con el token (crear trofeo)
+POST http://localhost:3000/trofeos
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsImlhdCI6MTc4ODgyMDg4OSwiZXhwIjoxNzg4ODQ5Njg5fQ.vGstErCZkwUxxct9DRaOqt3qd1FfeLfFQv94FShIj7k
+
+{
+  "nombre": "El Fin",
+  "juego": "Minecraft",
+  "dificultad": "Ultra Rara",
+  "requisito": "Derrotar al Dragón del End",
+  "estado": false,
+  "imagen": "https://ejemplo.com/dragon.png"
 }

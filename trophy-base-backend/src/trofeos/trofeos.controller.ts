@@ -1,12 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { TrofeosService } from './trofeos.service';
 import { CreateTrofeoDto } from './dto/create-trofeo.dto';
 import { UpdateTrofeoDto } from './dto/update-trofeo.dto';
+import { JwtGuard } from '../auth/jwt.guard';
 
 @Controller('trofeos')
 export class TrofeosController {
   constructor(private readonly trofeosService: TrofeosService) {}
 
+  @UseGuards(JwtGuard)
   @Post()
   create(@Body() createTrofeoDto: CreateTrofeoDto) {
     return this.trofeosService.create(createTrofeoDto);
@@ -22,11 +24,13 @@ export class TrofeosController {
     return this.trofeosService.findOne(+id);
   }
 
+  @UseGuards(JwtGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTrofeoDto: UpdateTrofeoDto) {
     return this.trofeosService.update(+id, updateTrofeoDto);
   }
 
+  @UseGuards(JwtGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.trofeosService.remove(+id);
