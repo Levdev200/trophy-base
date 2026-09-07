@@ -6,8 +6,8 @@ import { PrismaLibSql } from '@prisma/adapter-libsql';
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
   constructor() {
     const adapter = new PrismaLibSql({
-      url: 'file:./prisma/dev.db',
-    });
+  url: process.env.DATABASE_URL!,
+});
     super({ adapter });
   }
 
