@@ -12,6 +12,7 @@ const router = createRouter({
       path: '/',
       name: 'trofeos',
       component: TrofeosView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/login',
@@ -24,6 +25,18 @@ const router = createRouter({
       component: RegistroView,
     },
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+
+  if (to.meta.requiresAuth && !token) {
+    next('/login')
+  } else if ((to.path === '/login' || to.path === '/registro') && token) {
+    next('/')
+  } else {
+    next()
+  }
 })
 
 export default router

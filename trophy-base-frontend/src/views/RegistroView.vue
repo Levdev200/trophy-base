@@ -71,13 +71,8 @@ async function registrar() {
       </button>
     </form>
 
-    <p v-if="mensaje">
-      {{ mensaje }}
-    </p>
-
-    <p v-if="error">
-      {{ error }}
-    </p>
+    <p v-if="error" style="color: red">{{ error }}</p>
+    <p v-if="exito" style="color: green">{{ exito }}</p>
 
     <RouterLink to="/login">
       Ya tengo una cuenta
