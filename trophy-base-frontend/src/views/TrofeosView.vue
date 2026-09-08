@@ -195,7 +195,7 @@ onMounted(() => {
       <p v-else-if="trofeosFiltrados.length === 0">No se encontraron trofeos con ese nombre.</p>
 
       <div v-else>
-        <div v-for="trofeo in trofeosPaginados" :key="trofeo.id" class="trofeo">
+        <div v-for="trofeo in trofeosPaginados" :key="trofeo.id" class="trofeo" :class="{ 'conseguido': trofeo.estado }">
           <h3>{{ trofeo.nombre }}</h3>
           <img :src="trofeo.imagen" :alt="trofeo.nombre" />
           <p><strong>Juego:</strong> {{ trofeo.juego }}</p>
@@ -330,6 +330,10 @@ button:disabled {
 
   padding: 20px;
   margin-bottom: 20px;
+}
+
+.conseguido {
+  border-left: 5px solid green;
 }
 
 .trofeo h3 {
