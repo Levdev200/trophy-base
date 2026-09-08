@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { trofeosService } from '../services/trofeosService'
+import { removeToken, estaAutenticado } from "../services/authService";
 
 const trofeos = ref([])
 const cargando = ref(true)
@@ -9,7 +10,6 @@ const trofeoEditando = ref(null)
 const router = useRouter()
 const errorMsg = ref('')
 
-const estaAutenticado = computed(() => !!localStorage.getItem('token'))
 
 // Búsqueda
 const busqueda = ref('')
@@ -127,8 +127,8 @@ async function guardarEdicion() {
 }
 
 function logout() {
-  localStorage.removeItem('token')
-  router.push('/login')
+  removeToken();
+  router.push('/')
 }
 
 onMounted(() => {

@@ -1,3 +1,7 @@
+<script setup>
+  import { estaAutenticado } from "./services/authService";
+</script>
+
 <template>
   <header class="barra">
     <nav class="navegacion">
@@ -5,12 +9,12 @@
         🏆 Trophy Base
       </RouterLink>
 
-      <div class="enlaces">
+      <div class="enlaces" v-if="!estaAutenticado">
         <RouterLink to="/">
           Trofeos
         </RouterLink>
 
-        <RouterLink class="boton-sesion" to="/login">
+        <RouterLink class="boton-sesion" to="/login" >
         Iniciar sesión
       </RouterLink>
 

@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { setToken } from "../services/authService";
 
 const router = useRouter()
 
@@ -30,7 +31,7 @@ async function iniciarSesion() {
       return
     }
 
-    localStorage.setItem('token', datos.access_token)
+    setToken(datos.access_token);
 
     router.push('/')
   } catch {
