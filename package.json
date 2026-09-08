@@ -1,0 +1,26 @@
+{
+  "name": "trophy-base",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+ "scripts": {
+  "install:all": "npm install --prefix trophy-base-backend && npm install --prefix trophy-base-frontend",
+  "start": "concurrently \"npm run start:dev --prefix trophy-base-backend\" \"npm run dev --prefix trophy-base-frontend\"",
+  "setup": "npm run install:all && npm run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Levdev200/trophy-base.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Levdev200/trophy-base/issues"
+  },
+  "homepage": "https://github.com/Levdev200/trophy-base#readme",
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
+}
