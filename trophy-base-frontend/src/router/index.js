@@ -12,7 +12,6 @@ const router = createRouter({
       path: '/',
       name: 'trofeos',
       component: TrofeosView,
-      meta: { requiresAuth: true }
     },
     {
       path: '/login',
