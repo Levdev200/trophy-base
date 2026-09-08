@@ -1,4 +1,10 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException} from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 
@@ -8,6 +14,7 @@ export class JwtGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
+
     const token = this.extraerToken(request);
 
     if (!token) {
@@ -15,10 +22,9 @@ export class JwtGuard implements CanActivate {
     }
 
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: 'SECRET_KEY_TALLER',
-      });
-      (request as any).usuario = payload;;
+      const payload = await this.jwtService.verifyAsync(token);
+
+      (request as any).usuario = payload;
     } catch {
       throw new UnauthorizedException('Token inválido o expirado');
     }
@@ -27,7 +33,9 @@ export class JwtGuard implements CanActivate {
   }
 
   private extraerToken(request: Request): string | null {
-    const [tipo, token] = request.headers.authorization?.split(' ') ?? [];
+    const [tipo, token] =
+      request.headers.authorization?.split(' ') ?? [];
+
     return tipo === 'Bearer' ? token : null;
   }
 }
