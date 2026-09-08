@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
- "scripts": {
-  "install:all": "npm install --prefix trophy-base-backend && npm install --prefix trophy-base-frontend",
-  "start": "concurrently \"npm run start:dev --prefix trophy-base-backend\" \"npm run dev --prefix trophy-base-frontend\"",
-  "setup": "npm run install:all && npm run start"
+  "scripts": {
+    "install:all": "npm install --prefix trophy-base-backend && npm install --prefix trophy-base-frontend",
+    "start": "concurrently \"npm run start:dev --prefix trophy-base-backend\" \"npm run dev --prefix trophy-base-frontend\"",
+    "setup": "npm run install:all && npm run start"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,8 @@
   "homepage": "https://github.com/Levdev200/trophy-base#readme",
   "devDependencies": {
     "concurrently": "^10.0.5"
+  },
+  "dependencies": {
+    "axios": "^1.20.0"
   }
 }
