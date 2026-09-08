@@ -14,14 +14,6 @@ const router = createRouter({
       component: TrofeosView,
     },
     {
-      path: '/gestion',
-      name: 'gestion',
-      component: TrofeosView,
-      meta: {
-        requiresAuth: true,
-      },
-    },
-    {
       path: '/login',
       name: 'login',
       component: LoginView,
@@ -34,16 +26,12 @@ const router = createRouter({
   ],
 })
 
+//este router es inutil, por que no tenemos rutas privadas, pero, en caso de que se necesite alguna, solo seria agregar el requireauth
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
 
   if (to.meta.requiresAuth && !token) {
     next('/login')
-  } else if (
-    (to.path === '/login' || to.path === '/registro') &&
-    token
-  ) {
-    next('/gestion')
   } else {
     next()
   }

@@ -1,26 +1,3 @@
-<script setup>
-import { ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-
-const route = useRoute()
-const router = useRouter()
-
-const sesionIniciada = ref(!!localStorage.getItem('token'))
-
-watch(
-  () => route.path,
-  () => {
-    sesionIniciada.value = !!localStorage.getItem('token')
-  },
-)
-
-function cerrarSesion() {
-  localStorage.removeItem('token')
-  sesionIniciada.value = false
-  router.push('/login')
-}
-</script>
-
 <template>
   <header class="barra">
     <nav class="navegacion">
@@ -33,25 +10,14 @@ function cerrarSesion() {
           Trofeos
         </RouterLink>
 
-        <template v-if="sesionIniciada">
-          <RouterLink to="/gestion">
-            Gestionar
-          </RouterLink>
+        <RouterLink class="boton-sesion" to="/login">
+        Iniciar sesión
+      </RouterLink>
 
-          <button class="boton-sesion" @click="cerrarSesion">
-            Cerrar sesión
-          </button>
-        </template>
-
-        <template v-else>
-          <RouterLink to="/login">
-            Iniciar sesión
-          </RouterLink>
-
-          <RouterLink to="/registro">
-            Registrarse
-          </RouterLink>
-        </template>
+      <RouterLink to="/registro">
+        Registrarse
+      </RouterLink>
+      
       </div>
     </nav>
   </header>
@@ -115,8 +81,7 @@ a {
 
 .boton-sesion {
   border: none;
-  background: #d9a928;
-  color: #141c2f;
+  background: #308c91;
   font-weight: bold;
   padding: 9px 14px;
   border-radius: 7px;
@@ -124,7 +89,7 @@ a {
 }
 
 .boton-sesion:hover {
-  background: #f4c542;
+  background: rgb(91, 100, 89);
 }
 
 @media (max-width: 650px) {

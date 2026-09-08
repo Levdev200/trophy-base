@@ -32,7 +32,7 @@ async function iniciarSesion() {
 
     localStorage.setItem('token', datos.access_token)
 
-    router.push('/gestion')
+    router.push('/')
   } catch {
     error.value = 'Error al conectar con el servidor'
   }
