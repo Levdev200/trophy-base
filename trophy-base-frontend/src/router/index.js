@@ -14,6 +14,14 @@ const router = createRouter({
       component: TrofeosView,
     },
     {
+      path: '/gestion',
+      name: 'gestion',
+      component: TrofeosView,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
       path: '/login',
       name: 'login',
       component: LoginView,
@@ -31,8 +39,11 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.requiresAuth && !token) {
     next('/login')
-  } else if ((to.path === '/login' || to.path === '/registro') && token) {
-    next('/')
+  } else if (
+    (to.path === '/login' || to.path === '/registro') &&
+    token
+  ) {
+    next('/gestion')
   } else {
     next()
   }

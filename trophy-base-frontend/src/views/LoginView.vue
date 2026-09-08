@@ -32,7 +32,7 @@ async function iniciarSesion() {
 
     localStorage.setItem('token', datos.access_token)
 
-    router.push('/')
+    router.push('/gestion')
   } catch {
     error.value = 'Error al conectar con el servidor'
   }
@@ -46,6 +46,7 @@ async function iniciarSesion() {
     <form @submit.prevent="iniciarSesion">
       <div>
         <label>Correo:</label>
+
         <input
           v-model="email"
           type="email"
@@ -55,6 +56,7 @@ async function iniciarSesion() {
 
       <div>
         <label>Contraseña:</label>
+
         <input
           v-model="password"
           type="password"
