@@ -222,16 +222,183 @@ onMounted(() => {
 </template>
 
 <style scoped>
-main { max-width: 900px; margin: 40px auto; font-family: Arial, sans-serif; }
-form { max-width: 500px; }
-form div { margin-bottom: 12px; }
-label { display: block; margin-bottom: 4px; }
-input[type='text'] { width: 100%; padding: 8px; box-sizing: border-box; }
-button { padding: 8px 16px; margin-right: 8px; cursor: pointer; }
-button:disabled { cursor: not-allowed; }
-img { width: 150px; max-width: 100%; }
-.trofeo { margin-bottom: 20px; }
-.buscador { max-width: 500px; margin-bottom: 25px; }
-.paginacion { margin-top: 20px; margin-bottom: 30px; }
-.paginacion span { margin-right: 8px; }
+main {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 25px 50px;
+}
+
+h1 {
+  color: #141c2f;
+  font-size: 36px;
+  margin-bottom: 5px;
+}
+
+h2 {
+  color: #26334f;
+  margin-bottom: 20px;
+}
+
+section {
+  background: white;
+  padding: 25px;
+  margin-bottom: 25px;
+  border-radius: 12px;
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Formularios */
+
+form {
+  max-width: 650px;
+}
+
+form div {
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #374151;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+  width: 100%;
+  padding: 11px 12px;
+
+  border: 1px solid #cbd0da;
+  border-radius: 7px;
+
+  font-size: 15px;
+}
+
+input:focus {
+  outline: none;
+  border-color: #d9a928;
+
+  box-shadow:
+    0 0 0 3px rgba(217, 169, 40, 0.15);
+}
+
+/* Botones */
+
+button {
+  padding: 10px 17px;
+  margin-right: 8px;
+
+  border: none;
+  border-radius: 7px;
+
+  background: #26334f;
+  color: white;
+
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #141c2f;
+}
+
+button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Buscador */
+
+.buscador {
+  max-width: 500px;
+  margin-bottom: 30px;
+}
+
+/* Tarjetas */
+
+.trofeo {
+  background: #f8f9fb;
+
+  border: 1px solid #e1e4e9;
+  border-left: 5px solid #d9a928;
+
+  border-radius: 10px;
+
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.trofeo h3 {
+  color: #141c2f;
+  font-size: 23px;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.trofeo img {
+  width: 180px;
+  height: 130px;
+
+  object-fit: cover;
+
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.trofeo p {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.trofeo hr {
+  display: none;
+}
+
+/* Paginación */
+
+.paginacion {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 25px;
+}
+
+.paginacion span {
+  font-weight: bold;
+  color: #374151;
+}
+
+/* Separadores antiguos */
+
+main > hr {
+  display: none;
+}
+
+/* Responsive */
+
+@media (max-width: 650px) {
+  main {
+    margin-top: 20px;
+    padding: 0 15px 30px;
+  }
+
+  h1 {
+    font-size: 29px;
+  }
+
+  section {
+    padding: 18px;
+  }
+
+  .trofeo img {
+    width: 100%;
+    height: auto;
+  }
+}
 </style>
